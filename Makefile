@@ -4,6 +4,9 @@ checkbot:
 deploy:
 	zappa deploy prod
 
+invoke:
+	zappa invoke prod 'checkbot.check'
+
 lint:
 	flake8 .
 
