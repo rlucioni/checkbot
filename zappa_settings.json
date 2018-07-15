@@ -22,7 +22,7 @@
             "pytest.ini",
             "README.md",
             "requirements.txt",
-            "tests",
+            "test_checkbot.py",
             "zappa_settings.json",
         ],
         "keep_warm": false,
