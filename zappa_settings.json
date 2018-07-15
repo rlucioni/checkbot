@@ -1,0 +1,36 @@
+{
+    "prod": {
+        "apigateway_enabled": false,
+        "aws_region": "us-east-1",
+        "events": [{
+            "function": "checkbot.check",
+            // https://docs.aws.amazon.com/lambda/latest/dg/tutorial-scheduled-events-schedule-expressions.html
+            "expression": "cron(0 0 * * ? *)"
+        }],
+        "exception_handler": "checkbot.exception_handler",
+        "exclude": [
+            "__pycache__",
+            ".flake8",
+            ".gitignore",
+            ".pytest_cache",
+            ".python-version",
+            ".travis.yml",
+            "docker-compose.yml",
+            "LICENSE",
+            "Makefile",
+            "prune.py",
+            "pytest.ini",
+            "README.md",
+            "requirements.txt",
+            "tests",
+            "zappa_settings.json",
+        ],
+        "keep_warm": false,
+        "memory_size": 128,
+        "profile_name": "default",
+        "project_name": "checkbot",
+        "runtime": "python3.6",
+        "s3_bucket": "checkbot",
+        "timeout_seconds": 30,
+    }
+}

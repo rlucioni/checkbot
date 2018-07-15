@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  redis:
+    # https://hub.docker.com/r/library/redis/
+    image: "redis:4-alpine"
+    # https://github.com/docker-library/redis/issues/35#issuecomment-331719180
+    sysctls:
+      - "net.core.somaxconn=511"
+    volumes:
+      - "./redis/redis.conf:/etc/redis/redis.conf"
+    command: "redis-server /etc/redis/redis.conf"
+    ports:
+      - "6379:6379"
