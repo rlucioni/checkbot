@@ -30,10 +30,10 @@ Run checkbot:
 
     $ make checkbot
 
-Run the linter ([Flake8](http://flake8.pycqa.org/)):
+Run the linter:
 
     $ make lint
 
-Run tests ([Flake8](http://flake8.pycqa.org/)):
+Run tests:
 
     $ make test
