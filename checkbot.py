@@ -61,15 +61,21 @@ class Checkbot:
             'zipcode': HMART_ZIP,
         }
 
+        logger.info(f'checking points for {form}')
+
         response = requests.post(HMART_POINTS_URL, data=form)
         data = response.json()
         points = data['tpldata'][0]['point']
         date = data['tpldata'][0]['trdate']
 
+        logger.info(f'{points} points as of {date}')
+
         cached = self.redis.get(REDIS_POINTS_KEY)
         is_point_change = int(points) != int(cached) if cached else False
 
         if not cached or is_point_change:
+            logger.info('current points differ from cached points')
+
             self.redis.set(REDIS_POINTS_KEY, points)
 
             # TODO: include difference between old and new totals in message?
