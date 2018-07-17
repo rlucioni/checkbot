@@ -31,7 +31,7 @@ status:
 	zappa status prod
 
 tail:
-	zappa tail prod --since 5m
+	zappa tail prod --since 1d
 
 test:
 	pytest
