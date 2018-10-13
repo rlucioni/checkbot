@@ -112,13 +112,8 @@ def login():
     })
 
     login_url = f'{base_url}/ezpassmalogin'
-
     response = session.get(login_url)
-
-    if response.status_code == 200:
-        logger.info('login get ok')
-    else:
-        logger.info('login get failed')
+    logger.info(f'{login_url} get {response.status_code}')
 
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -132,11 +127,57 @@ def login():
     form['dnn$ctr689$View$txtPassword'] = EZ_PASSWORD
 
     response = session.post(login_url, data=form)
+    logger.info(f'{login_url} post {response.status_code}')
 
-    if response.status_code == 200:
-        logger.info('login post ok')
-    else:
-        logger.info('login post failed')
+    soup = BeautifulSoup(response.text, 'html.parser')
+    balance = soup.find(id='dnn_ctr670_ucAccountSummaryMassDot_lblBalance').text
+
+    tx_url = f'{base_url}/ezpassviewtransactions'
+    response = session.get(tx_url)
+    logger.info(f'{tx_url} get {response.status_code}')
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    with open('forms/tx.json') as f:
+        form = json.load(f)
+
+    form['__RequestVerificationToken'] = soup.find('input', {'name': '__RequestVerificationToken'}).get('value')
+    form['__VIEWSTATE'] = soup.find(id='__VIEWSTATE').get('value')
+    form['__EVENTVALIDATION'] = soup.find(id='__EVENTVALIDATION').get('value')
+    form['dnn$ctr1180$ucMassDotTcoreTransaction$ucBaseTcoreTransaction$txtStartDate'] = '10/01/2018'
+    form['dnn$ctr1180$ucMassDotTcoreTransaction$ucBaseTcoreTransaction$txtEndDate'] = '10/13/2018'
+
+    response = session.post(tx_url, data=form)
+    logger.info(f'{tx_url} post {response.status_code}')
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    table = soup.find(id='dnn_ctr1180_ucMassDotTcoreTransaction_ucBaseTcoreTransaction_AccountGridView')
+    rows = table.find_all('tr')
+    header = rows.pop(0)
+    total = rows.pop()
+
+    dollars = total.find_all('td')[-1].text
+    if dollars.startswith('('):
+        stripped = dollars.strip('()')
+        dollars = f'-{stripped}'
+
+    logger.info(f'found {len(rows)} transactions totaling {dollars}')
+
+    for row in rows:
+        cells = row.find_all('td')
+        tx_type = cells[2].text.lower().strip()
+
+        if 'toll' in tx_type:
+            toll_ts = cells[1].get_text(' ')
+            toll_loc = cells[6].text
+            toll_dollars = cells[8].text.strip('()')
+
+            logger.info(f'{tx_type} {toll_dollars} at {toll_loc} {toll_ts}')
+        elif 'replenish' in tx_type:
+            replenish_ts = cells[0].text
+            replenish_dollars = cells[8].text
+
+            logger.info(f'{tx_type} {replenish_dollars} on {replenish_ts}')
 
 
 def exception_handler(*args, **kwargs):
