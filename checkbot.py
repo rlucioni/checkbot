@@ -131,6 +131,7 @@ def login():
 
     soup = BeautifulSoup(response.text, 'html.parser')
     balance = soup.find(id='dnn_ctr670_ucAccountSummaryMassDot_lblBalance').text
+    logger.info(f'balance {balance}')
 
     tx_url = f'{base_url}/ezpassviewtransactions'
     response = session.get(tx_url)
