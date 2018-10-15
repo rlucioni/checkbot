@@ -1,0 +1,17 @@
+{
+    "StylesheetManager_TSSM": "",
+    "ScriptManager_TSM": ";;System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35:en:c7c66246-7597-47ee-87ae-ac254004a457:ea597d4b:b25378d2",
+    "__EVENTTARGET": "dnn$ctr689$View$btnLogin",
+    "__EVENTARGUMENT": "",
+    "__VIEWSTATE": null,
+    "__VIEWSTATEGENERATOR": "CA0B0334",
+    "__VIEWSTATEENCRYPTED": "",
+    "__EVENTVALIDATION": null,
+    "dnn$Header1$dnnSEARCH$txtSearch": "",
+    "dnn$ctr689$View$ddAuthType": "Username",
+    "dnn$ctr689$View$txtUserName": null,
+    "dnn$ctr689$View$txtPassword": null,
+    "ScrollTop": "157",
+    "__dnnVariable": "`{`__scdoff`:`1`,`sf_siteRoot`:`/`,`sf_tabId`:`61`}",
+    "__RequestVerificationToken": null
+}
