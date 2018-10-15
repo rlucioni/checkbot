@@ -160,7 +160,7 @@ class Checkbot:
             logger.info('no transactions found')
             return
 
-        header = rows.pop(0)
+        header = rows.pop(0)  # noqa: F841
         total = rows.pop()
 
         dollars = total.find_all('td')[-1].text
