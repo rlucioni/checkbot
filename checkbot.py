@@ -130,6 +130,9 @@ class Checkbot:
             self.redis.set(EZ_BALANCE_KEY, balance)
 
             self.message(f'E-ZPass balance is {balance}')
+        else:
+            logger.info('balance unchanged, exiting')
+            return
 
         tx_url = f'{base_url}/ezpassviewtransactions'
         response = session.get(tx_url)
