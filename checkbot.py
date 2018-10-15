@@ -204,7 +204,7 @@ def check():
     bot = Checkbot()
 
     try:
-        # bot.hmart()
+        bot.hmart()
         bot.ez()
     except:
         logger.exception('something went wrong')
