@@ -8,10 +8,11 @@ from redis import StrictRedis
 from checkbot import (
     HMART_POINTS_URL,
     SLACK_CHANNEL,
-    check,
+    Checkbot,
 )
 
 
+bot = Checkbot()
 SLACK_MESSAGE_URL = 'https://slack.com/api/chat.postMessage'
 
 
@@ -46,7 +47,7 @@ class TestCheckbot:
         responses.calls.reset()
 
     @responses.activate
-    def test_check(self):
+    def test_hmart(self):
         body = {
             'tpldata': [
                 {
@@ -67,13 +68,13 @@ class TestCheckbot:
 
         self.mock_slack()
 
-        check()
+        bot.hmart()
 
         self.assert_calls(HMART_POINTS_URL, SLACK_MESSAGE_URL)
         self.assert_slack(responses.calls[1], '182 Hmart points as of 07/14/2018')
         self.reset_calls()
 
-        check()
+        bot.hmart()
 
         self.assert_calls(HMART_POINTS_URL)
         self.reset_calls()
@@ -96,7 +97,7 @@ class TestCheckbot:
             json=new_body,
         )
 
-        check()
+        bot.hmart()
 
         self.assert_calls(HMART_POINTS_URL, SLACK_MESSAGE_URL)
         self.assert_slack(responses.calls[1], '213 Hmart points as of 07/15/2018')
