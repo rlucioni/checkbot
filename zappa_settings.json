@@ -5,7 +5,7 @@
         "events": [{
             "function": "checkbot.check",
             // https://docs.aws.amazon.com/lambda/latest/dg/tutorial-scheduled-events-schedule-expressions.html
-            "expression": "cron(0 0 * * ? *)"
+            "expression": "cron(5 0 * * ? *)"
         }],
         "exception_handler": "checkbot.exception_handler",
         "exclude": [
